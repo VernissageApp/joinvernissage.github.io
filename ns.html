@@ -10,7 +10,8 @@
     <meta property="og:url" content="https://joinvernissage.org/ns#">
     <meta property="og:type" content="article">
     <meta property="og:title" content="Vernissage extensions to ActivityPub for photo-centric Applications">
-    <meta property="og:description" content="Specification of Vernissage JSON extensions for ActivityPub to support photo-centric features.">    
+    <meta property="og:description" content="Specification of Vernissage JSON extensions for ActivityPub to support photo-centric features.">
+    <meta property="og:logo" content="/icon-192x192.png" />
     <meta property="og:image" content="https://dze8wklcbv7qo.cloudfront.net/articles/7504322891438099420/ge5yjgol6hhdv35y.jpg">
     <meta property="og:image:type" content="image/jpg">
     <meta property="og:image:alt" content="Article logo">
@@ -96,7 +97,7 @@
 ]
 </code></pre>
 
-        <h2><a href="#location">2. Location</a></h2>
+        <h2 id="location"><a href="#location">2. Location</a></h2>
 
         <p>The <code>location</code> extension allows an approximate city-level location to be attached to photo
             attachments. The provided location is coarse enough to preserve user privacy while still offering contextual
@@ -131,7 +132,7 @@
 
         <p>If the <code>location</code> field is used, all of the above properties are <strong>required</strong>.</p>
 
-        <h2><a href="#metadata">3. Metadata (EXIF)</a></h2>
+        <h2 id="metadata"><a href="#metadata">3. Metadata (EXIF)</a></h2>
 
         <p>The <code>metadata</code> extension allows inclusion of photographic metadata (commonly known as EXIF) to
             assist in cataloging, editing, and analysis of images. This may include camera parameters and GPS location.
@@ -186,7 +187,7 @@
             <code>latitude</code> and <code>longitude</code>, platforms must clearly inform the user and obtain consent
             before including them.</p>
 
-        <h2><a href="#category">4. Category</a></h2>
+        <h2 id="category"><a href="#category">4. Category</a></h2>
 
         <p>The <code>category</code> field allows classification of a post using a plain-text tag representing the
             photo’s category or genre.</p>
