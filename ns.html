@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vernissage extensions to ActivityPub for photo-centric Applications</title>
+    <meta name="description" content="Specification of Vernissage JSON extensions for ActivityPub to support photo-centric features.">
+    <meta property="og:url" content="https://joinvernissage.org/ns#">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Vernissage extensions to ActivityPub for photo-centric Applications">
+    <meta property="og:description" content="Specification of Vernissage JSON extensions for ActivityPub to support photo-centric features.">    
+    <meta property="og:image" content="https://dze8wklcbv7qo.cloudfront.net/articles/7504322891438099420/ge5yjgol6hhdv35y.jpg">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:alt" content="Article logo">
+    <meta property="og:image:width" content="100">
+    <meta property="og:image:height" content="100">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <style>
+        body {
+            background: #f9f9f9;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .rfc {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 2em 1.5em;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        pre {
+            overflow-x: auto;
+            background: #f0f0f0;
+            padding: 1em;
+            border-radius: 4px;
+        }
+
+        code {
+            font-family: "Fira Code", Menlo, "Courier New", monospace;
+            font-size: 0.9em;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: Georgia, "Times New Roman", Times, serif;
+            margin-top: 2em;
+        }
+
+        h1 {
+            font-size: 1.8em;
+            text-align: center;
+            margin-top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="rfc">
+
+        <h1>Vernissage extensions to ActivityPub for photo-centric Applications</h1>
+
+        <p><strong>Abstract.</strong> This document describes a set of JSON object extensions used in the ActivityPub
+            protocol by the Vernissage platform. These extensions are designed to support photo-centric use cases by
+            adding metadata relevant to image handling, location tagging, and categorization. While not part of the core
+            ActivityPub specification, these extensions aim to be interoperable and safely ignored by clients that do
+            not support them.</p>
+
+        <h2>1. Introduction</h2>
+
+        <p>The Vernissage platform introduces additional fields to ActivityPub objects to enhance the experience of
+            publishing and consuming photographic content. These extensions are primarily intended for applications
+            focused on photography and visual media. The fields are added using custom context definitions and are
+            compatible with the ActivityStreams JSON-LD structure.</p>
+
+        <p>The full <code>@context</code> definition including all custom terms is as follows:</p>
+
+        <pre><code class="language-json">
+"@context": [
+  "https://www.w3.org/ns/activitystreams",
+  {
+    "toot": "http://joinmastodon.org/ns#",
+    "votersCount": "toot:votersCount",
+    "Emoji": "toot:Emoji",
+    "focalPoint": {
+      "@container": "@list",
+      "@id": "toot:focalPoint"
+    },
+    "photos": "https://joinvernissage.org/ns#",
+    "location": "photos:location",
+    "metadata": "photos:metadata",
+    "category": "photos:category"
+  }
+]
+</code></pre>
+
+        <h2>2. Location</h2>
+
+        <p>The <code>location</code> extension allows an approximate city-level location to be attached to photo
+            attachments. The provided location is coarse enough to preserve user privacy while still offering contextual
+            value.</p>
+
+        <p><em>Example:</em></p>
+
+        <pre><code class="language-json">
+"attachments": [{
+  ... (standard attachment properties) ...
+  "location": {
+    "country": {
+      "code": "PL",
+      "name": "Poland"
+    },
+    "latitude": "51.1",
+    "longitude": "17.03333",
+    "name": "Wrocław"
+  }
+}]
+</code></pre>
+
+        <h3>2.1 Properties</h3>
+
+        <ul>
+            <li><code>location:name</code> &mdash; City name.</li>
+            <li><code>location:country:code</code> &mdash; ISO&nbsp;3166-1 alpha-2 country code.</li>
+            <li><code>location:country:name</code> &mdash; Country name.</li>
+            <li><code>location:latitude</code> &mdash; Approximate latitude of the city.</li>
+            <li><code>location:longitude</code> &mdash; Approximate longitude of the city.</li>
+        </ul>
+
+        <p>If the <code>location</code> field is used, all of the above properties are <strong>required</strong>.</p>
+
+        <h2>3. Metadata (EXIF)</h2>
+
+        <p>The <code>metadata</code> extension allows inclusion of photographic metadata (commonly known as EXIF) to
+            assist in cataloging, editing, and analysis of images. This may include camera parameters and GPS location.
+            Inclusion of GPS metadata must be explicitly acknowledged by the user due to its precision and privacy
+            implications.</p>
+
+        <p><em>Example:</em></p>
+
+        <pre><code class="language-json">
+"attachments": [{
+  ... (standard attachment properties) ...
+  "metadata": {
+    "exif": {
+      "createDate": "2025-02-27T17:38:49.408Z",
+      "exposureTime": "1/200",
+      "fNumber": "f/2.2",
+      "flash": "Flash did not fire, compulsory flash mode",
+      "focalLenIn35mmFilm": "85",
+      "focalLength": "85",
+      "latitude": "51.110501666666664N",
+      "longitude": "17.033457778333332E",
+      "lens": "Zeiss Batis 1.8/85",
+      "make": "SONY",
+      "model": "ILCE-7M4",
+      "photographicSensitivity": "3200",
+      "software": "Capture One Macintosh"
+    }
+  }
+}]
+</code></pre>
+
+        <h3>3.1 Properties</h3>
+
+        <ul>
+            <li><code>metadata:exif:createDate</code> &mdash; ISO&nbsp;8601 timestamp of photo creation.</li>
+            <li><code>metadata:exif:exposureTime</code> &mdash; Exposure time (e.g., <code>"1/100"</code> or
+                <code>"4"</code> for 4&nbsp;seconds).</li>
+            <li><code>metadata:exif:fNumber</code> &mdash; Aperture value (e.g., <code>"f/1.8"</code>).</li>
+            <li><code>metadata:exif:flash</code> &mdash; Descriptive flash usage string.</li>
+            <li><code>metadata:exif:focalLenIn35mmFilm</code> &mdash; 35&nbsp;mm equivalent focal length.</li>
+            <li><code>metadata:exif:focalLength</code> &mdash; Focal length as reported by the camera.</li>
+            <li><code>metadata:exif:latitude</code> &mdash; Exact latitude of photo location.</li>
+            <li><code>metadata:exif:longitude</code> &mdash; Exact longitude of photo location.</li>
+            <li><code>metadata:exif:lens</code> &mdash; Lens model name.</li>
+            <li><code>metadata:exif:make</code> &mdash; Camera manufacturer.</li>
+            <li><code>metadata:exif:model</code> &mdash; Camera model.</li>
+            <li><code>metadata:exif:photographicSensitivity</code> &mdash; ISO sensitivity.</li>
+            <li><code>metadata:exif:software</code> &mdash; Editing software used.</li>
+        </ul>
+
+        <p>All of these fields are <strong>optional</strong>. However, due to the sensitive nature of
+            <code>latitude</code> and <code>longitude</code>, platforms must clearly inform the user and obtain consent
+            before including them.</p>
+
+        <h2>4. Category</h2>
+
+        <p>The <code>category</code> field allows classification of a post using a plain-text tag representing the
+            photo’s category or genre.</p>
+
+        <p><em>Example:</em></p>
+
+        <pre><code class="language-json">
+{
+  ... (standard note properties) ...
+  "category": {
+    "name": "Black and white"
+  }
+}
+</code></pre>
+
+        <h3>4.1 Properties</h3>
+
+        <ul>
+            <li><code>category:name</code> &mdash; Name of the photo’s category.</li>
+        </ul>
+
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+
+</html>
