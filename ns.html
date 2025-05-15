@@ -69,72 +69,101 @@
 
         <h1>Vernissage extensions to ActivityPub for photo-centric applications</h1>
 
-        <p><strong>Abstract.</strong> This document describes a set of JSON object extensions used in the ActivityPub
-            protocol by the Vernissage platform. These extensions are designed to support photo-centric use cases by
-            adding metadata relevant to image handling, location tagging, and categorization. While not part of the core
-            ActivityPub specification, these extensions aim to be interoperable and safely ignored by clients that do
-            not support them.</p>
+        <p>
+          <strong>Abstract.</strong> This document describes a set of JSON object extensions used in the ActivityPub
+          protocol by the Vernissage platform. These extensions are designed to support photo-centric platforms by
+          enriching images with detailed camera metadata - such as lens information, exposure time, focal length,
+          ISO sensitivity, aperture settings, and related capture parameters. While not part of the core
+          ActivityPub specification, these extensions aim to be interoperable and safely ignored by clients that do
+          not support them.
+        </p>
 
         <h2>1. Introduction</h2>
 
-        <p>The Vernissage platform introduces additional fields to ActivityPub objects to enhance the experience of
-            publishing and consuming photographic content. These extensions are primarily intended for applications
-            focused on photography and visual media. The fields are added using custom context definitions and are
-            compatible with the ActivityStreams JSON-LD structure.</p>
+        <p>
+          The Vernissage platform introduces additional fields to ActivityPub objects to enhance the experience of
+          publishing and consuming photographic content. These extensions are primarily intended for applications
+          focused on photography and visual media. The fields are added using custom context definitions and are
+          compatible with the ActivityStreams JSON-LD structure.</p>
+
+        <p>
+          <div>Vernissage extensions (photos:)</div>
+          <div>Base URI: https://joinvernissage.org/ns#</div>
+        </p>
+        <p>
+          Contains terms used for Vernissage features:
+          <ul>
+            <li>photos:geonameId (https://joinvernissage.org/ns#geonameId)</li>
+            <li>photos:exif (https://joinvernissage.org/ns#exif)</li>
+          </ul>
+        </p>
 
         <p>The full <code>@context</code> definition including all custom terms is as follows:</p>
 
-        <pre><code class="language-json">
+<pre><code class="language-json">
 "@context": [
   "https://www.w3.org/ns/activitystreams",
   {
     ... (other extensions) ...
     "photos": "https://joinvernissage.org/ns#",
-    "location": "photos:location",
-    "metadata": "photos:metadata",
-    "category": "photos:category"
+    "geonameId": "photos:geonameId",
+    "exif": "photos:exif"
   }
 ]
 </code></pre>
 
-        <h2 id="location"><a href="#location">2. Location</a></h2>
+        <h2 id="geonameId"><a href="#geonameId">2. GeoNames</a></h2>
 
-        <p>The <code>location</code> extension allows an approximate city-level location to be attached to photo
-            attachments. The provided location is coarse enough to preserve user privacy while still offering contextual
-            value.</p>
+        <p>
+          This extension introduces the <code>geonameId</code> property - a unique identifier for a place in the GeoNames database.
+          Including a <code>geonameId</code> lets clients:
+          <ul>
+            <li>disambiguate places that share a name;</li>
+            <li>cross-link Vernissage objects with external services (GIS, weather, open data);</li>
+            <li>offer users a direct link to detailed information (https://www.geonames.org/{geonameId}).</li>
+          </ul>
+        </p>
 
         <p><em>Example:</em></p>
 
         <pre><code class="language-json">
-"attachments": [{
-  ... (standard attachment properties) ...
-  "location": {
-    "country": {
-      "code": "PL",
-      "name": "Poland"
-    },
-    "latitude": "51.1",
-    "longitude": "17.03333",
-    "name": "Wrocław"
-  }
-}]
+{
+  "@context": [
+    "https://www.w3.org/ns/activitystreams",
+    {
+      "photos": "https://joinvernissage.org/ns#",
+      "geonameId": "photos:geonameId",
+      "schema": "http://schema.org#",
+      "addressCountry": "schema:addressCountry"
+    }
+  ],
+  "type": "Note",
+  "url": "http://joinvernissage.org/@user/7487297782810677484",
+  "attachments": [{
+    "type": "Image",
+    "url": "https://joinvernissage.org/0994397cf69742f68bdd94ebb66463c7.jpg",
+    "mediaType": "image/jpeg",
+    "location": {
+      "geonameId": "3081368",           // unique GeoNames identifier.
+      "latitude": "51,1",
+      "longitude": "17,03333",
+      "name": "Wrocław",
+      "addressCountry": "PL",
+      "type": "Place"
+    }
+  }]
+}
 </code></pre>
 
         <h3>2.1 Properties</h3>
 
         <ul>
-            <li><code>location:name</code> &mdash; City name.</li>
-            <li><code>location:country:code</code> &mdash; ISO&nbsp;3166-1 alpha-2 country code.</li>
-            <li><code>location:country:name</code> &mdash; Country name.</li>
-            <li><code>location:latitude</code> &mdash; Approximate latitude of the city.</li>
-            <li><code>location:longitude</code> &mdash; Approximate longitude of the city.</li>
+            <li><code>geonameId</code> &mdash; SHOULD be the <code>geonameid</code> returned by the GeoNames API.</li>
         </ul>
 
-        <p>If the <code>location</code> field is used, all of the above properties are <strong>required</strong>.</p>
+        <h2 id="exif"><a href="#exif">3. Exif</a></h2>
 
-        <h2 id="metadata"><a href="#metadata">3. Metadata (EXIF)</a></h2>
-
-        <p>The <code>metadata</code> extension allows inclusion of photographic metadata (commonly known as EXIF) to
+        <p>The <code>exif</code> extension allows inclusion of photographic metadata (commonly known as EXIF) to
             assist in cataloging, editing, and analysis of images. This may include camera parameters and GPS location.
             Inclusion of GPS metadata <strong>must be</strong> explicitly acknowledged by the user due to its precision and privacy
             implications.</p>
@@ -142,9 +171,20 @@
         <p><em>Example:</em></p>
 
         <pre><code class="language-json">
-"attachments": [{
-  ... (standard attachment properties) ...
-  "metadata": {
+{
+  "@context": [
+    "https://www.w3.org/ns/activitystreams",
+    {
+      "photos": "https://joinvernissage.org/ns#",
+      "exif": "photos:exif"
+    }
+  ],
+  "type": "Note",
+  "url": "http://joinvernissage.org/@user/7487297782810677484",
+  "attachments": [{
+    "type": "Image",
+    "url": "https://joinvernissage.org/0994397cf69742f68bdd94ebb66463c7.jpg",
+    "mediaType": "image/jpeg",
     "exif": {
       "createDate": "2025-02-27T17:38:49.408Z",
       "exposureTime": "1/200",
@@ -160,54 +200,32 @@
       "photographicSensitivity": "3200",
       "software": "Capture One Macintosh"
     }
-  }
-}]
+  }]
+}
 </code></pre>
 
         <h3>3.1 Properties</h3>
 
         <ul>
-            <li><code>metadata:exif:createDate</code> &mdash; ISO&nbsp;8601 timestamp of photo creation.</li>
-            <li><code>metadata:exif:exposureTime</code> &mdash; Exposure time (e.g., <code>"1/100"</code> or
+            <li><code>exif:createDate</code> &mdash; ISO&nbsp;8601 timestamp of photo creation.</li>
+            <li><code>exif:exposureTime</code> &mdash; Exposure time (e.g., <code>"1/100"</code> or
                 <code>"4"</code> for 4&nbsp;seconds).</li>
-            <li><code>metadata:exif:fNumber</code> &mdash; Aperture value (e.g., <code>"f/1.8"</code>).</li>
-            <li><code>metadata:exif:flash</code> &mdash; Descriptive flash usage string.</li>
-            <li><code>metadata:exif:focalLenIn35mmFilm</code> &mdash; 35&nbsp;mm equivalent focal length.</li>
-            <li><code>metadata:exif:focalLength</code> &mdash; Focal length as reported by the camera.</li>
-            <li><code>metadata:exif:latitude</code> &mdash; Exact latitude of photo location.</li>
-            <li><code>metadata:exif:longitude</code> &mdash; Exact longitude of photo location.</li>
-            <li><code>metadata:exif:lens</code> &mdash; Lens model name.</li>
-            <li><code>metadata:exif:make</code> &mdash; Camera manufacturer.</li>
-            <li><code>metadata:exif:model</code> &mdash; Camera model.</li>
-            <li><code>metadata:exif:photographicSensitivity</code> &mdash; ISO sensitivity.</li>
-            <li><code>metadata:exif:software</code> &mdash; Editing software used.</li>
+            <li><code>exif:fNumber</code> &mdash; Aperture value (e.g., <code>"f/1.8"</code>).</li>
+            <li><code>exif:flash</code> &mdash; Descriptive flash usage string.</li>
+            <li><code>exif:focalLenIn35mmFilm</code> &mdash; 35&nbsp;mm equivalent focal length.</li>
+            <li><code>exif:focalLength</code> &mdash; Focal length as reported by the camera.</li>
+            <li><code>exif:latitude</code> &mdash; Exact latitude of photo location.</li>
+            <li><code>exif:longitude</code> &mdash; Exact longitude of photo location.</li>
+            <li><code>exif:lens</code> &mdash; Lens model name.</li>
+            <li><code>exif:make</code> &mdash; Camera manufacturer.</li>
+            <li><code>exif:model</code> &mdash; Camera model.</li>
+            <li><code>exif:photographicSensitivity</code> &mdash; ISO sensitivity.</li>
+            <li><code>exif:software</code> &mdash; Editing software used.</li>
         </ul>
 
         <p>All of these fields are <strong>optional</strong>. However, due to the sensitive nature of
             <code>latitude</code> and <code>longitude</code>, platforms must clearly inform the user and obtain consent
             before including them.</p>
-
-        <h2 id="category"><a href="#category">4. Category</a></h2>
-
-        <p>The <code>category</code> field allows classification of a post using a plain-text tag representing the
-            photo’s category or genre.</p>
-
-        <p><em>Example:</em></p>
-
-        <pre><code class="language-json">
-{
-  ... (standard note properties) ...
-  "category": {
-    "name": "Black and white"
-  }
-}
-</code></pre>
-
-        <h3>4.1 Properties</h3>
-
-        <ul>
-            <li><code>category:name</code> &mdash; Name of the photo’s category.</li>
-        </ul>
 
     </main>
 
