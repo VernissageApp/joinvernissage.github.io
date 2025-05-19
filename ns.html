@@ -61,6 +61,11 @@
             text-align: center;
             margin-top: 0;
         }
+
+        a, a:visited, a.hover {
+            color: #007BFF;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -87,14 +92,14 @@
           compatible with the ActivityStreams JSON-LD structure.</p>
 
         <p>
-          <div>Vernissage extensions (photos:)</div>
-          <div>Base URI: https://joinvernissage.org/ns#</div>
+          <div>Base URI: <a href="https://joinvernissage.org/ns#">https://joinvernissage.org/ns#</a></div>
         </p>
         <p>
           Contains terms used for Vernissage features:
           <ul>
-            <li>photos:geonameId (https://joinvernissage.org/ns#geonameId)</li>
-            <li>photos:exif (https://joinvernissage.org/ns#exif)</li>
+            <li><a href="#geonameId">geonameId</a> &mdash; <code>geonameId</code> property for GeoNames identifier.</li>
+            <li><a href="#exif">exif</a> &mdash; <code>exif</code> property for camera metadata.</li>
+            <li><a href="#category">Category</a> &mdash; <code>Category</code> property for categorizing entity.</li>
           </ul>
         </p>
 
@@ -107,12 +112,13 @@
     ... (other extensions) ...
     "photos": "https://joinvernissage.org/ns#",
     "geonameId": "photos:geonameId",
-    "exif": "photos:exif"
+    "exif": "photos:exif",
+    "Category": "photos:Category"
   }
 ]
 </code></pre>
 
-        <h2 id="geonameId"><a href="#geonameId">2. GeoNames</a></h2>
+        <h2 id="geonameId">2. GeoNames <a href="#geonameId">&#128279;</a></h2>
 
         <p>
           This extension introduces the <code>geonameId</code> property - a unique identifier for a place in the GeoNames database.
@@ -161,7 +167,7 @@
             <li><code>geonameId</code> &mdash; SHOULD be the <code>geonameid</code> returned by the GeoNames API.</li>
         </ul>
 
-        <h2 id="exif"><a href="#exif">3. Exif</a></h2>
+        <h2 id="exif">3. Exif <a href="#exif">&#128279;</a></h2>
 
         <p>The <code>exif</code> extension allows inclusion of photographic metadata (commonly known as EXIF) to
             assist in cataloging, editing, and analysis of images. This may include camera parameters and GPS location.
@@ -226,6 +232,61 @@
         <p>All of these fields are <strong>optional</strong>. However, due to the sensitive nature of
             <code>latitude</code> and <code>longitude</code>, platforms must clearly inform the user and obtain consent
             before including them.</p>
+
+        <h2 id="category">4. Category <a href="#category">&#128279;</a></h2>
+
+        <p>
+          The <code>Category</code> extension is an extension of the <a href="https://www.w3.org/ns/activitystreams#tag"><code>tag</code></a>
+          property from ActivityPub. Thanks to this extension, in addition to the <code>Mention</code> and <code>Hashtag</code> types,
+          we can also support the <code>Category</code> type. Categories can be found in many contexts, such as article categories
+          on websites. In Vernissage, we can assign categories to photos.
+        </p>
+
+        <p>
+          Although the extension allows assigning multiple categories to an object, Vernissage supports only one category per photo.
+          If a collection contains more than one category, the first one will be used.
+        </p>
+
+        <p><em>Example:</em></p>
+
+        <pre><code class="language-json">
+{
+  "@context": [
+    "https://www.w3.org/ns/activitystreams",
+    {
+      "Category": "photos:Category",
+      "photos": "https://joinvernissage.org/ns#"
+    }
+  ],
+  "attributedTo": "https://joinvernissage.org/actors/johndoe",
+  "cc": [
+    "https://joinvernissage.org/actors/johndoe/followers"
+  ],
+  "content": "<p>Note text</p>",
+  "id": "https://joinvernissage.org/actors/johndoe/statuses/7359535244628142081",
+  "published": "2024-04-19T11:15:42.779Z",
+  "tag": [
+    {
+      "href": "https://joinvernissage.org/categories/Abstract",
+      "name": "Abstract",
+      "type": "Category"
+    }
+  ],
+  "to": [
+    "https://www.w3.org/ns/activitystreams#Public"
+  ],
+  "type": "Note",
+  "url": "https://joinvernissage.org/@johndoe/7359535244628142081"
+}
+</code></pre>
+
+        <h3>4.1 Properties</h3>
+
+        <ul>
+            <li><code>type</code> &mdash; For that extensions always: <code>Category</code>.</li>
+            <li><code>name</code> &mdash; Name of the category.</li>
+            <li><code>href</code> &mdash; Reference to the category (URL).</li>
+        </ul>
 
     </main>
 
