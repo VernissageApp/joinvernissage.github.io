@@ -84,6 +84,12 @@ body {
     color: var(--primary-color);
 }
 
+@media (max-width: 480px) {
+    .nav-links {
+        display: none;
+    }
+}
+
 /* Hero section */
 .hero {
     padding: 4rem 1.5rem;
