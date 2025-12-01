@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const toggleButton = document.getElementById('theme-toggle');
+    const toggleIcon = toggleButton ? toggleButton.querySelector('.theme-toggle-icon') : null;
     const body = document.body;
     const logoImg = document.getElementById('site-logo');
 
@@ -12,10 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const isDark = theme === 'dark';
         if (isDark) {
             body.classList.add('dark');
-            toggleButton.textContent = '☀️';
+            setToggleIcon('☀️');
         } else {
             body.classList.remove('dark');
-            toggleButton.textContent = '🌙';
+            setToggleIcon('🌙');
         }
 
         updateLogo(isDark);
@@ -42,11 +43,25 @@ document.addEventListener('DOMContentLoaded', () => {
         logoImg.setAttribute('src', isDark ? darkSrc : lightSrc);
     }
 
+    function setToggleIcon(icon) {
+        if (!toggleButton) {
+            return;
+        }
+
+        if (toggleIcon) {
+            toggleIcon.textContent = icon;
+        } else {
+            toggleButton.textContent = icon;
+        }
+    }
+
     // Attach click handler to toggle the theme
-    toggleButton.addEventListener('click', () => {
-        const isDark = body.classList.toggle('dark');
-        const theme = isDark ? 'dark' : 'light';
-        localStorage.setItem('vernissage-theme', theme);
-        applyTheme(theme);
-    });
+    if (toggleButton) {
+        toggleButton.addEventListener('click', () => {
+            const isDark = body.classList.toggle('dark');
+            const theme = isDark ? 'dark' : 'light';
+            localStorage.setItem('vernissage-theme', theme);
+            applyTheme(theme);
+        });
+    }
 });

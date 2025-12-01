@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vernissage - Rediscover the beauty of photography</title>
-    <link rel="stylesheet" href="style.css?v=g4jgbxi9">
-    <script defer src="script.js?v=hr79l3hn"></script>
+    <link rel="stylesheet" href="style.css?v=htnb93h0">
+    <script defer src="script.js?v=dw9lgn73"></script>
 </head>
 <body>
     <header class="site-header">
@@ -13,12 +13,17 @@
             <div class="logo">
                 <img id="site-logo" src="logo-light.svg" data-light="logo-light.svg" data-dark="logo-dark.svg" alt="Vernissage logo">
             </div>
-            <ul class="nav-links">
-                <li><a href="#features">Features</a></li>
-                <li><a href="#why">Why?</a></li>
-                <li><a href="#join">Join</a></li>
-                <li><a href="https://patreon.com/Vernissage" target="_blank">Donate</a></li>
-            </ul>
+            <div class="nav-actions">
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#why">Why?</a></li>
+                    <li><a href="#join">Join</a></li>
+                    <li><a href="https://patreon.com/Vernissage" target="_blank">Donate</a></li>
+                </ul>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle color mode">
+                    <span class="theme-toggle-icon" aria-hidden="true">🌙</span>
+                </button>
+            </div>
         </nav>
         <section class="hero">
             <div class="hero-inner">
@@ -237,7 +242,5 @@
             </p>
         </div>
     </footer>
-    <!-- Theme toggle button always available in bottom right corner -->
-    <button id="theme-toggle" aria-label="Toggle color mode">🌙</button>
 </body>
 </html>
