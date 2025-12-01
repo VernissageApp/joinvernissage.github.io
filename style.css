@@ -1,6 +1,14 @@
 @font-face {
     font-family: 'Manrope';
-    src: url('manrope-variable.woff2') format('woff');
+    src: url('fonts/manrope-variable.woff2') format('woff');
+    font-weight: 100 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FleurDeLeah';
+    src: url('fonts/fleur-de-leah.woff2') format('woff');
     font-weight: 100 800;
     font-style: normal;
     font-display: swap;
@@ -65,6 +73,11 @@ body {
     border-radius: 0.5rem;
     font-size: 0.75rem;
     font-weight: 600;
+}
+
+.logo-font {
+    font-family: 'FleurDeLeah', 'Manrope', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.6em;
 }
 
 .nav-links {
@@ -188,7 +201,7 @@ body {
     gap: 0.5rem;
     background-color: rgba(99, 102, 241, 0.12);
     color: var(--primary-color);
-    padding: 0.4rem 0.75rem;
+    padding: 4px 32px 4px 16px !important;
     border-radius: 999px;
     font-weight: 700;
     font-size: 0.95rem;
@@ -328,6 +341,7 @@ body {
 .floating-title {
     margin: 0;
     font-weight: 700;
+    text-align: left;
 }
 
 .floating-desc {
