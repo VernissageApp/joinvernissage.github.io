@@ -65,6 +65,10 @@ body {
     align-items: center;
 }
 
+#site-logo {
+    width: 165px;
+}
+
 .logo .badge {
     background-color: var(--primary-color);
     color: #fff;
@@ -733,7 +737,7 @@ body {
 
 .btn-dropdown .dropdown-menu {
     position: absolute;
-    top: calc(100% + 0.35rem);
+    top: calc(100% - 210px);
     right: 0;
     min-width: 220px;
     background: var(--bg-color);
@@ -761,10 +765,6 @@ body {
 .dropdown-item:focus-visible {
     background: var(--secondary-color);
     color: var(--primary-color);
-}
-
-.donate {
-    overflow: visible;
 }
 
 /* Buttons */
