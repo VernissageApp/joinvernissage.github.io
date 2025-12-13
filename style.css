@@ -557,6 +557,132 @@ body {
     z-index: 1;
 }
 
+/* Servers page */
+.servers {
+    padding: 3.5rem 1.5rem 4rem;
+    background: linear-gradient(180deg, var(--secondary-color) 0%, var(--bg-color) 75%);
+}
+
+.servers-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1.5rem;
+}
+
+.servers-header {
+    text-align: center;
+    display: grid;
+    gap: 0.35rem;
+    justify-items: center;
+}
+
+.servers-kicker {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 1.1rem;
+    border-radius: 999px;
+    background: rgba(99, 102, 241, 0.12);
+    color: var(--primary-color);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.servers h1 {
+    margin: 0.35rem 0 0.15rem;
+    font-size: 2.1rem;
+    font-weight: 800;
+}
+
+.servers-lede {
+    margin: 0;
+    max-width: 760px;
+    color: var(--secondary-text);
+    font-size: 1.05rem;
+}
+
+.servers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+
+.server-card {
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 0.9rem;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.server-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.08);
+    border-color: rgba(99, 102, 241, 0.4);
+}
+
+.server-thumb img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+.server-body {
+    padding: 1rem 1.2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.server-tag {
+    margin: 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    font-weight: 800;
+    color: var(--secondary-text);
+}
+
+.server-name {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.server-desc {
+    margin: 0 0 0.5rem;
+    color: var(--secondary-text);
+    font-size: 0.95rem;
+}
+
+.server-footer {
+    padding: 1rem 1.2rem 1.2rem;
+    margin-top: auto;
+}
+
+.server-footer .btn {
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+    text-align: center;
+}
+
+@media (max-width: 640px) {
+    .servers {
+        padding: 2.5rem 1.1rem 3rem;
+    }
+
+    .servers h1 {
+        font-size: 1.9rem;
+    }
+}
+
 .donate {
     padding: 3.5rem 1.5rem 4rem;
     background: linear-gradient(180deg, var(--bg-color) 0%, rgba(99, 102, 241, 0.04) 100%);
