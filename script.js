@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleIcon = toggleButton ? toggleButton.querySelector('.theme-toggle-icon') : null;
     const body = document.body;
     const logoImg = document.getElementById('site-logo');
+    const appStoreBadge = document.getElementById('appstore-badge');
+    const mobileAppShots = [
+        document.getElementById('mobile-app-shot-1'),
+        document.getElementById('mobile-app-shot-2')
+    ].filter(Boolean);
 
     const servers = [
         {
@@ -38,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setToggleIcon('🌙');
         }
 
-        updateLogo(isDark);
+        updateThemeAssets(isDark);
     }
 
     // Check for a stored preference
@@ -52,14 +57,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function updateLogo(isDark) {
-        if (!logoImg) {
+    function updateThemeImage(imgElement, isDark) {
+        if (!imgElement) {
             return;
         }
 
-        const lightSrc = logoImg.dataset.light || logoImg.getAttribute('src');
-        const darkSrc = logoImg.dataset.dark || lightSrc;
-        logoImg.setAttribute('src', isDark ? darkSrc : lightSrc);
+        const lightSrc = imgElement.dataset.light || imgElement.getAttribute('src');
+        const darkSrc = imgElement.dataset.dark || lightSrc;
+        imgElement.setAttribute('src', isDark ? darkSrc : lightSrc);
+    }
+
+    function updateThemeAssets(isDark) {
+        updateThemeImage(logoImg, isDark);
+        updateThemeImage(appStoreBadge, isDark);
     }
 
     function setToggleIcon(icon) {
@@ -83,6 +93,41 @@ document.addEventListener('DOMContentLoaded', () => {
             applyTheme(theme);
         });
     }
+
+    function pickRandomScreens(count) {
+        const screens = [
+            { src: 'images/ios-01.png', alt: 'Vernissage iOS app feed view' },
+            { src: 'images/ios-02.png', alt: 'Vernissage iOS app photo detail view' },
+            { src: 'images/ios-03.png', alt: 'Vernissage iOS app profile view' },
+            { src: 'images/ios-04.png', alt: 'Vernissage iOS app comments and interactions view' }
+        ];
+
+        for (let i = screens.length - 1; i > 0; i -= 1) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [screens[i], screens[j]] = [screens[j], screens[i]];
+        }
+
+        return screens.slice(0, count);
+    }
+
+    function updateMobileAppScreens() {
+        if (mobileAppShots.length === 0) {
+            return;
+        }
+
+        const selectedScreens = pickRandomScreens(mobileAppShots.length);
+        mobileAppShots.forEach((shot, index) => {
+            const selected = selectedScreens[index];
+            if (!selected) {
+                return;
+            }
+
+            shot.setAttribute('src', selected.src);
+            shot.setAttribute('alt', selected.alt);
+        });
+    }
+
+    updateMobileAppScreens();
 
     const dropdowns = document.querySelectorAll('[data-dropdown]');
     dropdowns.forEach((dropdown) => {
