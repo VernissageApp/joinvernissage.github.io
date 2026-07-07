@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="Rounded" transform="matrix(2.856055,0,0,2.71767,-193.132255,-191.368506)">
+        <path d="M425.808,164.615C425.808,112.625 385.645,70.416 336.174,70.416L156.906,70.416C107.436,70.416 67.272,112.625 67.272,164.615L67.272,353.011C67.272,405.001 107.436,447.21 156.906,447.21L336.174,447.21C385.645,447.21 425.808,405.001 425.808,353.011L425.808,164.615Z" style="fill:url(#_Linear1);"/>
+    </g>
+    <g id="Logo" transform="matrix(1,0,0,1,-119.188096,-76.238925)">
+        <g transform="matrix(580,0,0,580,652.386691,762.732639)">
+        </g>
+        <text x="281.767px" y="762.733px" style="font-family:'FleurDeLeah-Regular', 'Fleur De Leah';font-size:580px;fill:rgb(36,36,36);">V</text>
+    </g>
+    <defs>
+        <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-0,376.793318,-358.536502,-0,246.540152,70.416381)"><stop offset="0" style="stop-color:rgb(251,251,251);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(242,242,242);stop-opacity:1"/></linearGradient>
+    </defs>
+</svg>

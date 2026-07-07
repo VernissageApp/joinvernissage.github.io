@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const logoImg = document.getElementById('site-logo');
     const appStoreBadge = document.getElementById('appstore-badge');
+    const brandAssetsIcon = document.getElementById('brand-assets-icon');
+    const brandAssetsLogo = document.getElementById('brand-assets-logo');
     const mobileAppShots = [
         document.getElementById('mobile-app-shot-1'),
         document.getElementById('mobile-app-shot-2')
@@ -70,6 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateThemeAssets(isDark) {
         updateThemeImage(logoImg, isDark);
         updateThemeImage(appStoreBadge, isDark);
+        updateThemeImage(brandAssetsIcon, isDark);
+        updateThemeImage(brandAssetsLogo, isDark);
     }
 
     function setToggleIcon(icon) {
